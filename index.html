@@ -358,6 +358,12 @@
             border-left: 4px solid #FF9800;
         }
         
+        .latte-notification {
+            background: linear-gradient(135deg, #FFEBB2 0%, #FFD700 100%);
+            border: 2px solid #FF9800;
+            border-left: 6px solid #FF9800;
+        }
+        
         @media (max-width: 600px) {
             .stamp-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -592,12 +598,12 @@
                 <!-- Las estrellas se generarán dinámicamente con JavaScript -->
             </div>
             
-            <!-- Mensaje especial para la séptima visita -->
-            <div id="seventhVisitMessage" class="reward-message hidden">
-                <i class="fas fa-gift text-2xl mb-2"></i>
-                <h4 class="font-bold text-emerald-800">¡Felicidades! 🎉</h4>
-                <p class="text-sm mt-1">Gracias por tu preferencia. Ahora nos toca a nosotros brindarte un pedazo de amor.</p>
-                <p class="font-semibold text-emerald-700 mt-2">¡Disfruta tu Latte saborizado de elección!</p>
+            <!-- Notificación de Latte (se muestra en cada 7ma visita) -->
+            <div id="latteNotification" class="reward-message latte-notification hidden">
+                <i class="fas fa-mug-hot text-2xl mb-2 text-amber-600"></i>
+                <h4 class="font-bold text-amber-800">¡Felicidades por alcanzar las 7 visitas! 🎉</h4>
+                <p class="text-sm mt-1 text-amber-700">Gracias por tu preferencia. Ahora nos toca a nosotros brindarte un pedazo de amor.</p>
+                <p class="font-semibold text-amber-800 mt-2">¡Disfruta tu Latte saborizado de elección GRATIS!</p>
             </div>
 
             <!-- Sección de Descuentos -->
@@ -710,7 +716,7 @@
         const totalVisits = document.getElementById('totalVisits');
         const remainingVisits = document.getElementById('remainingVisits');
         const stampGrid = document.getElementById('stampGrid');
-        const seventhVisitMessage = document.getElementById('seventhVisitMessage');
+        const latteNotification = document.getElementById('latteNotification');
         const discount10 = document.getElementById('discount10');
         const discount20 = document.getElementById('discount20');
         const backBtn = document.getElementById('backBtn');
@@ -924,11 +930,11 @@
             totalVisits.textContent = client.visits;
             remainingVisits.textContent = Math.max(0, 7 - (client.visits % 7));
             
-            // Mostrar u ocultar mensaje especial para la séptima visita
-            if (client.visits >= 7 && client.visits % 7 === 0) {
-                seventhVisitMessage.classList.remove('hidden');
+            // Mostrar notificación de Latte en cada 7ma visita
+            if (client.visits > 0 && client.visits % 7 === 0) {
+                latteNotification.classList.remove('hidden');
             } else {
-                seventhVisitMessage.classList.add('hidden');
+                latteNotification.classList.add('hidden');
             }
             
             // Actualizar estado de los descuentos
@@ -940,24 +946,31 @@
         
         // Actualizar estado de los descuentos
         function updateDiscounts(visits) {
-            // Descuento del 10% (visita 14)
-            if (visits >= 14) {
+            const completedCycles = Math.floor(visits / 7);
+            
+            // Descuento del 10% (a partir del 2do ciclo - visita 14)
+            if (completedCycles >= 2) {
                 discount10.classList.add('discount-available');
                 discount10.querySelector('.discount-info .text-sm').textContent = '¡Disponible ahora!';
+                discount10.querySelector('.discount-info .text-sm').innerHTML = '¡Disponible! <span class="font-semibold">10% de descuento</span>';
             } else {
                 discount10.classList.remove('discount-available');
                 discount10.classList.add('discount-pending');
-                discount10.querySelector('.discount-info .text-sm').textContent = `Faltan ${14 - visits} visitas`;
+                const visitsNeeded = 14 - visits;
+                discount10.querySelector('.discount-info .text-sm').textContent = 
+                    visitsNeeded > 0 ? `Faltan ${visitsNeeded} visitas` : '¡Próxima visita!';
             }
             
-            // Descuento del 20% (visita 21)
-            if (visits >= 21) {
+            // Descuento del 20% (a partir del 3er ciclo - visita 21)
+            if (completedCycles >= 3) {
                 discount20.classList.add('discount-available');
-                discount20.querySelector('.discount-info .text-sm').textContent = '¡Disponible ahora!';
+                discount20.querySelector('.discount-info .text-sm').innerHTML = '¡Disponible! <span class="font-semibold">20% de descuento</span>';
             } else {
                 discount20.classList.remove('discount-available');
                 discount20.classList.add('discount-pending');
-                discount20.querySelector('.discount-info .text-sm').textContent = `Faltan ${21 - visits} visitas`;
+                const visitsNeeded = 21 - visits;
+                discount20.querySelector('.discount-info .text-sm').textContent = 
+                    visitsNeeded > 0 ? `Faltan ${visitsNeeded} visitas` : '¡Próxima visita!';
             }
         }
         
@@ -972,8 +985,8 @@
         function updateStampGrid(visits) {
             stampGrid.innerHTML = '';
             
-            // Calcular el número de estrellas completas (cada 7 visitas = 1 recompensa)
-            const completedRewards = Math.floor(visits / 7);
+            // Calcular el número de ciclos completos (cada 7 visitas = 1 Latte gratis)
+            const completedCycles = Math.floor(visits / 7);
             const currentProgress = visits % 7;
             
             for (let i = 1; i <= 7; i++) {
@@ -998,7 +1011,24 @@
             rewardCounter.style.textAlign = 'center';
             rewardCounter.style.marginTop = '10px';
             rewardCounter.style.color = '#10b981';
-            rewardCounter.innerHTML = `<i class="fas fa-trophy"></i> Has ganado ${completedRewards} recompensa(s) completa(s)`;
+            rewardCounter.style.fontSize = '0.9rem';
+            
+            let rewardText = '';
+            if (completedCycles > 0) {
+                rewardText = `<i class="fas fa-mug-hot"></i> Has ganado <strong>${completedCycles} Latte(s) saborizado(s) gratis</strong>`;
+                
+                // Mostrar descuentos disponibles
+                if (completedCycles >= 2) {
+                    rewardText += ` | <i class="fas fa-tag"></i> <strong>10% descuento</strong>`;
+                }
+                if (completedCycles >= 3) {
+                    rewardText += ` | <i class="fas fa-tags"></i> <strong>20% descuento</strong>`;
+                }
+            } else {
+                rewardText = `<i class="fas fa-star"></i> Completa 7 visitas para tu primer <strong>Latte saborizado GRATIS</strong>`;
+            }
+            
+            rewardCounter.innerHTML = rewardText;
             stampGrid.appendChild(rewardCounter);
         }
         
