@@ -195,14 +195,14 @@
         
         .stamp-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
             margin: 30px 0;
         }
         
         .stamp-slot {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border: 2px dashed #10b981;
             border-radius: 50%;
             display: flex;
@@ -211,7 +211,7 @@
             margin: 0 auto;
             background-color: rgba(255, 255, 255, 0.7);
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.9rem;
             position: relative;
         }
         
@@ -222,7 +222,7 @@
         
         .gold-star {
             color: #10b981;
-            font-size: 24px;
+            font-size: 20px;
         }
         
         .stats-grid {
@@ -248,34 +248,6 @@
         .stat-label {
             font-size: 0.9rem;
             color: #10b981;
-        }
-        
-        .qr-section {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            background: #FFF9E6;
-            border-radius: 10px;
-        }
-        
-        .qr-code {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 15px;
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: #10b981;
-        }
-        
-        .qr-desc {
-            font-size: 0.9rem;
-            color: #10b981;
-            margin-top: 10px;
         }
         
         .back-button {
@@ -366,18 +338,18 @@
         
         @media (max-width: 600px) {
             .stamp-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 8px;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 6px;
             }
             
             .stamp-slot {
-                width: 40px;
-                height: 40px;
-                font-size: 0.9rem;
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
             }
             
             .gold-star {
-                font-size: 20px;
+                font-size: 16px;
             }
             
             .customer-info {
@@ -598,10 +570,10 @@
                 <!-- Las estrellas se generarán dinámicamente con JavaScript -->
             </div>
             
-            <!-- Notificación de Latte (se muestra en cada 7ma visita) -->
+            <!-- Notificación de Latte (se muestra en cada 10ma visita) -->
             <div id="latteNotification" class="reward-message latte-notification hidden">
                 <i class="fas fa-mug-hot text-2xl mb-2 text-amber-600"></i>
-                <h4 class="font-bold text-amber-800">¡Felicidades por alcanzar las 7 visitas! 🎉</h4>
+                <h4 class="font-bold text-amber-800">¡Felicidades por alcanzar las 10 visitas! 🎉</h4>
                 <p class="text-sm mt-1 text-amber-700">Gracias por tu preferencia. Ahora nos toca a nosotros brindarte un pedazo de amor.</p>
                 <p class="font-semibold text-amber-800 mt-2">¡Disfruta tu Latte saborizado de elección GRATIS!</p>
             </div>
@@ -616,7 +588,7 @@
                 <div class="discount-item" id="discount10">
                     <div class="discount-info">
                         <div class="font-semibold text-emerald-800">Descuento del 10%</div>
-                        <div class="text-sm text-emerald-600">Disponible en tu visita #14</div>
+                        <div class="text-sm text-emerald-600">Disponible en tu visita #20</div>
                     </div>
                     <div class="discount-percentage">10%</div>
                 </div>
@@ -625,7 +597,7 @@
                 <div class="discount-item" id="discount20">
                     <div class="discount-info">
                         <div class="font-semibold text-emerald-800">Descuento del 20%</div>
-                        <div class="text-sm text-emerald-600">Disponible en tu visita #21</div>
+                        <div class="text-sm text-emerald-600">Disponible en tu visita #30</div>
                     </div>
                     <div class="discount-percentage">20%</div>
                 </div>
@@ -637,16 +609,9 @@
                     <div class="stat-label">Visitas totales</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="remainingVisits">7</div>
+                    <div class="stat-number" id="remainingVisits">10</div>
                     <div class="stat-label">Para próxima recompensa</div>
                 </div>
-            </div>
-            
-            <div class="qr-section">
-                <div class="qr-code" id="customerQr">
-                    <i class="fas fa-coffee"></i>
-                </div>
-                <p class="qr-desc">Muestra este código al realizar tu pedido para acumular visitas</p>
             </div>
             
             <button class="back-button" id="backBtn">
@@ -654,14 +619,15 @@
             </button>
         </div>
 
-        <!-- Coffee shop ambiance elements -->
+       <!-- Coffee shop ambiance elements -->
         <div class="text-center mt-4 space-y-3">
             <!-- Coffee shop icons row -->
             <div class="flex justify-center space-x-4 mb-3">
                 <div class="text-xl">☕</div>
                 <div class="text-xl">🥐</div>
-                <div class="text-xl">🧁</div>
-                <div class="text-xl">🍰</div>
+                <div class="text-xl">🐻</div>
+                <div class="text-xl">🧸</div>
+                <div class="text-xl">🍵</div>
             </div>
             
             <!-- Welcome message -->
@@ -928,10 +894,10 @@
             customerPhoneText.textContent = client.phone;
             visitsCount.textContent = client.visits;
             totalVisits.textContent = client.visits;
-            remainingVisits.textContent = Math.max(0, 7 - (client.visits % 7));
+            remainingVisits.textContent = Math.max(0, 10 - (client.visits % 10));
             
-            // Mostrar notificación de Latte en cada 7ma visita
-            if (client.visits > 0 && client.visits % 7 === 0) {
+            // Mostrar notificación de Latte en cada 10ma visita
+            if (client.visits > 0 && client.visits % 10 === 0) {
                 latteNotification.classList.remove('hidden');
             } else {
                 latteNotification.classList.add('hidden');
@@ -946,29 +912,28 @@
         
         // Actualizar estado de los descuentos
         function updateDiscounts(visits) {
-            const completedCycles = Math.floor(visits / 7);
+            const completedCycles = Math.floor(visits / 10);
             
-            // Descuento del 10% (a partir del 2do ciclo - visita 14)
+            // Descuento del 10% (a partir del 2do ciclo - visita 20)
             if (completedCycles >= 2) {
                 discount10.classList.add('discount-available');
-                discount10.querySelector('.discount-info .text-sm').textContent = '¡Disponible ahora!';
                 discount10.querySelector('.discount-info .text-sm').innerHTML = '¡Disponible! <span class="font-semibold">10% de descuento</span>';
             } else {
                 discount10.classList.remove('discount-available');
                 discount10.classList.add('discount-pending');
-                const visitsNeeded = 14 - visits;
+                const visitsNeeded = 20 - visits;
                 discount10.querySelector('.discount-info .text-sm').textContent = 
                     visitsNeeded > 0 ? `Faltan ${visitsNeeded} visitas` : '¡Próxima visita!';
             }
             
-            // Descuento del 20% (a partir del 3er ciclo - visita 21)
+            // Descuento del 20% (a partir del 3er ciclo - visita 30)
             if (completedCycles >= 3) {
                 discount20.classList.add('discount-available');
                 discount20.querySelector('.discount-info .text-sm').innerHTML = '¡Disponible! <span class="font-semibold">20% de descuento</span>';
             } else {
                 discount20.classList.remove('discount-available');
                 discount20.classList.add('discount-pending');
-                const visitsNeeded = 21 - visits;
+                const visitsNeeded = 30 - visits;
                 discount20.querySelector('.discount-info .text-sm').textContent = 
                     visitsNeeded > 0 ? `Faltan ${visitsNeeded} visitas` : '¡Próxima visita!';
             }
@@ -981,15 +946,15 @@
             consultPhoneInput.value = '';
         }
         
-        // Actualizar cuadrícula de estampas (ahora con 7 visitas)
+        // Actualizar cuadrícula de estampas (ahora con 10 visitas)
         function updateStampGrid(visits) {
             stampGrid.innerHTML = '';
             
-            // Calcular el número de ciclos completos (cada 7 visitas = 1 Latte gratis)
-            const completedCycles = Math.floor(visits / 7);
-            const currentProgress = visits % 7;
+            // Calcular el número de ciclos completos (cada 10 visitas = 1 Latte gratis)
+            const completedCycles = Math.floor(visits / 10);
+            const currentProgress = visits % 10;
             
-            for (let i = 1; i <= 7; i++) {
+            for (let i = 1; i <= 10; i++) {
                 const stampSlot = document.createElement('div');
                 stampSlot.className = 'stamp-slot';
                 
@@ -1025,7 +990,7 @@
                     rewardText += ` | <i class="fas fa-tags"></i> <strong>20% descuento</strong>`;
                 }
             } else {
-                rewardText = `<i class="fas fa-star"></i> Completa 7 visitas para tu primer <strong>Latte saborizado GRATIS</strong>`;
+                rewardText = `<i class="fas fa-star"></i> Completa 10 visitas para tu primer <strong>Latte saborizado GRATIS</strong>`;
             }
             
             rewardCounter.innerHTML = rewardText;
